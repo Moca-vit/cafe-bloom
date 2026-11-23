@@ -71,6 +71,11 @@ svg, iframe {
   z-index: 100;
 }
 
+/* スクロール時の影（JSでクラスを付け外し） */
+#header.is-scrolled {
+  box-shadow: 0 2px 16px rgba(61, 43, 31, 0.08);
+}
+
 .header-inner {
   max-width: var(--content-max-width);
   margin: 0 auto;
@@ -448,6 +453,6 @@ html {
     height: 2px;
     background: var(--color-text);
     border-radius: 2px;
-    transition: all 0.3s;
+    transition: transform 0.3s, opacity 0.3s;
   }
 }

@@ -1,12 +1,3 @@
-window.addEventListener('scroll', () => {
-  const header = document.getElementById('header');
-  if (window.scrollY > 0) {
-    header.style.boxShadow = '0 2px 16px rgba(61, 43, 31, 0.08)';
-  } else {
-    header.style.boxShadow = 'none';
-  }
-});
-
 // ハンバーガーメニュー
 const hamburger = document.querySelector('.hamburger');
 const navList = document.querySelector('.nav-list');
@@ -21,11 +12,23 @@ document.querySelectorAll('.nav-list a').forEach(link => {
   });
 });
 
-// ページ上部ボタンの表示/非表示
+// スクロール時の処理（ヘッダーの影・ページ上部ボタン）
+// リスナーを1つにまとめ、requestAnimationFrameで1フレーム1回に間引く
+const header = document.getElementById('header');
 const scrollTopBtn = document.getElementById('scrollTop');
+let ticking = false;
+function onScroll() {
+  const y = window.scrollY;
+  header.classList.toggle('is-scrolled', y > 0);
+  scrollTopBtn.classList.toggle('is-visible', y > 300);
+  ticking = false;
+}
 window.addEventListener('scroll', () => {
-  scrollTopBtn.classList.toggle('is-visible', window.scrollY > 300);
-});
+  if (!ticking) {
+    requestAnimationFrame(onScroll);
+    ticking = true;
+  }
+}, { passive: true });
 scrollTopBtn.addEventListener('click', () => {
   window.scrollTo({ top: 0, behavior: 'smooth' });
 });
